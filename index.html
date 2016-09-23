@@ -1,45 +1,44 @@
-
 <!doctype html>
-<html ng-app>
+<html>
 <head>
 <style>
 body{
-	background-image: url(http://www.nateharasim.com/wp-content/uploads/2015/07/itunes-logo-png-transparent.png);
-	width: 100%;
-	background-color:grey;
-	}
-	div{
-		margin:auto;
-		background: #159a15;
-		width: 200px;
-		padding:10px;
-	}
-	h3{
-		margin:auto;
-		background-color: white;
-		width: 200px;
-		padding:10px;
-	}
-</style>
-<script type="text/javascript">
-    function NameController($scope){
-          $scope.names=[];
-          $scope.addName=function(){
-          $scope.names.push($scope.newP);
-        }
-        
+        background-image: url(http://www.nateharasim.com/wp-content/uploads/2015/07/itunes-logo-png-transparent.png);
+        width: 100%;
+        background-color:grey;
        }
-</script>
+div{
+	background: #ebebe0;
+	width: 30%;
+}
+h1{
+       background-color: white;
+       width: 600px;
+       padding:10px;
+   }
+</style>
+<script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
 </head>
-<body>
-<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.0.1/angular.min.js"></script>
+<body ng-app="myApp" ng-controller="songCtrl">
 <h1><b>Emergency Makeshift iTunes Song Search</b></h1>
-<div ng-controller="NameController">
-<input type="text" ng-model="newP" placeholder="Person">
-<button ng-click="addName()">Add New</button>
-    <br>
- <ul><di ng-repeat="obj in names">{{object.name}}<br></di></ul>
-
- </div>
+<form ng-submit="songAdd()">
+<input type="text" ng-model="songInput" size="50" placeholder="Search New">
+<input type="submit" value="Search Song">
+</form>
+<br>
+<div ng-repeat="x in songList">
+<span ng-bind="x.songText"></span>
+</div>
+<script>
+var app = angular.module('myApp', []);
+app.controller('songCtrl', function($scope) {
+    $scope.songList = [];
+    $scope.songAdd = function() {
+    $scope.songList.push({songText:$scope.songInput});
+    $scope.songInput = "";
+ };
+});
+</script>
 </body>
 </html>
+
