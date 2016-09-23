@@ -1,2 +1,56 @@
 
-<!doctype>
+<!doctype html>
+<html ng-app>
+<head>
+<style>
+body{
+	background-image: url(https://2.bp.blogspot.com/-cVKJplFKBWw/UcoP-KWvIqI/AAAAAAAAF0U/irazp9Wn9zk7gywHzA0p8C_Z5PmDr74hgCPcB/s1600/family%2Bsearch.png);
+	width: 100%;
+	background-color:grey;
+	}
+	div{
+		margin:auto;
+		background: #159a15;
+		width: 200px;
+		padding:10px;
+	}
+	h3{
+		margin:auto;
+		background-color: white;
+		width: 200px;
+		padding:10px;
+	}
+</style>
+<script type="text/javascript">
+    function NameController($scope){
+          $scope.names=[];
+          $scope.addName=function(){
+          $scope.names.push(
+	{name: $scope.newP+", "+$scope.newF+", "+$scope.newM,
+	check: false
+	});
+        }
+        $scope.deleteName=function(){
+	var oldList= $scope.names;
+	$scope.names=[];
+	angular.forEach(oldList, function(obj){
+	if (!obj.check) $scope.names.push(obj);
+	});
+       }
+       }
+<script>
+</head>
+<body>
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.0.1/angular.min.js"></script>
+<h3><b><em>My Family History List</em></b></h3>
+<div ng-controller="NameController">
+<input type="text" ng-model="newP" placeholder="Person">
+<input type="text" ng-model="newF" placeholder="Father">
+<input type="text" ng-model="newM" placeholder="Mother">
+<button ng-click="addName()">Add New</button>
+    <br>
+ <ul><di ng-repeat="obj in names"><input type="checkbox" ng-model="obj.check">{{obj.name}}<br></di></ul>
+ <button ng-click="deleteName()">Remove marked</button>
+ </div>
+</body>
+</html>
