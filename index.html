@@ -26,31 +26,22 @@ body{
           $scope.names=[];
           $scope.addName=function(){
           $scope.names.push(
-	{name: $scope.newP+", "+$scope.newF+", "+$scope.newM,
-	check: false
+	{name: $scope.newP
 	});
         }
-        $scope.deleteName=function(){
-	var oldList= $scope.names;
-	$scope.names=[];
-	angular.forEach(oldList, function(obj){
-	if (!obj.check) $scope.names.push(obj);
-	});
-       }
+        
        }
 </script>
 </head>
 <body>
 <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.0.1/angular.min.js"></script>
-<h3><b><em>My Family History List</em></b></h3>
+<h1><b>Emergency Makeshift iTunes Song Search</b></h1>
 <div ng-controller="NameController">
 <input type="text" ng-model="newP" placeholder="Person">
-<input type="text" ng-model="newF" placeholder="Father">
-<input type="text" ng-model="newM" placeholder="Mother">
 <button ng-click="addName()">Add New</button>
     <br>
- <ul><di ng-repeat="obj in names"><input type="checkbox" ng-model="obj.check">{{obj.name}}<br></di></ul>
- <button ng-click="deleteName()">Remove marked</button>
+ <ul><di ng-repeat="obj in names">{object.name}<br></di></ul>
+
  </div>
 </body>
 </html>
