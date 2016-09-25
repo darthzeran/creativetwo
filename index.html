@@ -16,10 +16,57 @@ h1{
        width: 600px;
        padding:10px;
    }
+#content img {
+position: fixed; 
+bottom: 0px; 
+right: 0px;
+
+}
+#results{
+	position: absolute;
+	background-color: white;
+	top: 50px;
+	right: 50px;
+	
+
+}
 </style>
 <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
+<script>
+$(document).ready(function() {
+
+$("#searchbutton").click(function(e){
+  var value = $("#songInput").val();
+  var everything="Options: ";
+ // console.log(value);
+  e.preventDefault();
+
+
+
+var myurl= "https://www.google.com/search?q="+$("#songInput").val()+"&oq="+$("#songInput").val()+"&aqs=chrome..69i57j0l5.1210j0j9&sourceid=chrome&ie=UTF-8";
+
+  console.log(myurl);
+  $.ajax({
+    url : myurl,
+    dataType : "json",
+     success : function(parsed_json) {
+	$.each(parsed_json['items'], function(name2, values)
+	 {
+	 //console.log(values);
+	 var link=values.link;
+	 var title = values.title;
+	 
+	$("#results").html(everything);
+	 });
+    }
+  });
+});
+});
+
+</script>
 </head>
 <body ng-app="myApp" ng-controller="songCtrl">
+<title>SongSearch</title>
 <h1><b>Emergency Makeshift iTunes Song Search</b></h1>
 <form ng-submit="songAdd()">
 <input type="text" ng-model="songInput" size="50" placeholder="Search New">
@@ -29,6 +76,18 @@ h1{
 <div ng-repeat="x in songList">
 <span ng-bind="x.songText"></span>
 </div>
+
+<div id="content">
+    <img src="http://vignette3.wikia.nocookie.net/logopedia/images/0/0c/ITunes_11_Logo.png/revision/latest?cb=20121202052931"</>   
+</div>
+<!--   https://www.google.com/search?q=    &oq=    &aqs=chrome..69i57j0l5.1210j0j9&sourceid=chrome&ie=UTF-8    -->
+<!-- https://www.google.com/search?q=INSERTHERE&oq=INSERTHERE&aqs=chrome..69i57j0l5.1210j0j9&sourceid=chrome&ie=UTF-8 -->
+
+<div id="results">
+<p>Show the results</p>
+</div>
+
+
 <script>
 var app = angular.module('myApp', []);
 app.controller('songCtrl', function($scope) {
