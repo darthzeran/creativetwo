@@ -19,7 +19,7 @@ h1{
 #content img {
 position: fixed; 
 bottom: 0px; 
-right: 0px;
+right: 550px;
 
 }
 #results{
@@ -31,77 +31,74 @@ right: 0px;
 
 }
 </style>
-<script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
-<!--
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+
 <script>
 $(document).ready(function() {
 
-$("#searchbutton").click(function(e){
-  var value = $("#songInput").val();
-  var everything="Options: ";
- // console.log(value);
+$("#thebutton").click(function(e){
+  var value = $("#ArtistInput").val();
+  //console.log(value);
   e.preventDefault();
+value=value.replace(/ /g, "+");
+var myurl= "http://api.musicgraph.com/api/v2/artist/suggest?api_key=c8303e90962e3a5ebd5a1f260a69b138&prefix=" + value;
 
+ // console.log(myurl);
 
-
-var myurl= "https://www.google.com/search?q="+$("#songInput").val()+"&oq="+$("#songInput").val()+"&aqs=chrome..69i57j0l5.1210j0j9&sourceid=chrome&ie=UTF-8";
-
-  console.log(myurl);
   $.ajax({
     url : myurl,
     dataType : "json",
      success : function(parsed_json) {
-	$.each(parsed_json['items'], function(name2, values)
+	 var everything="";
+	$.each(parsed_json.data, function(i, value)
 	 {
 	 //console.log(values);
-	 var link=values.link;
-	 var title = values.title;
-	 
-	$("#results").html(everything);
+	 var link=value.link;
+	 var title = value.title;
+	 everything += "<a href=\"https://www.youtube.com/channel/"+ value.youtube_id + "\">" + value.name + "</a>" + "<br>" + "Main Genre: " + 
+	 value.main_genre + "<br>" + "Origin Country: " + value.country_of_origin + "<br>" + "Decade: " + value.decade + "<br>"+ "<br>";
 	 });
+	 $("#results").html(everything);
     }
   });
+  
 });
 });
 
 </script>
-SO THE INPUT JUST NEEDS TO BE TAKEN AND PLACED INTO THE LINK BELOW, WITH + SOGNS REPLACING THE WHITESPACE LIKE GOOGLE DOES.
-THE LINK OR LINK RESULTS SHOW UP.  I JUST DO NOT KNOW HOW TO DO THAT :D
--->
+
 </head>
-<body ng-app="myApp" ng-controller="songCtrl">
+<body>
 <title>SongSearch</title>
 <h1><b>Emergency Makeshift iTunes Song Search</b></h1>
-<form ng-submit="songAdd()">
-<input type="text" ng-model="songInput" size="50" placeholder="Search New">
-<input type="submit" value="Search Song">
+<form>
+<input type="text" id="ArtistInput" size="50" placeholder="Enter Artist">
+<input id="thebutton" type="submit" value="Search Artist">
 </form>
 <br>
-<div ng-repeat="x in songList">
-<span ng-bind="x.songText"></span>
+<div>
+
 </div>
 
 <div id="content">
     <img src="http://vignette3.wikia.nocookie.net/logopedia/images/0/0c/ITunes_11_Logo.png/revision/latest?cb=20121202052931"</>   
 </div>
-<!--   https://www.google.com/search?q=    &oq=    &aqs=chrome..69i57j0l5.1210j0j9&sourceid=chrome&ie=UTF-8    -->
-<!-- https://www.google.com/search?q=INSERTHERE&oq=INSERTHERE&aqs=chrome..69i57j0l5.1210j0j9&sourceid=chrome&ie=UTF-8 -->
 
 <div id="results">
 <p>Show the results</p>
 </div>
 
-
+<!--
 <script>
 var app = angular.module('myApp', []);
-app.controller('songCtrl', function($scope) {
-    $scope.songList = [];
-    $scope.songAdd = function() {
-    $scope.songList.push({songText:$scope.songInput});
-    $scope.songInput = "";
+app.controller('ArtistCtrl', function($scope) {
+    $scope.ArtistList = [];
+    $scope.ArtistAdd = function() {
+    $scope.ArtistList.push({ArtistText:$scope.ArtistInput});
+    $scope.ArtistInput = "";
  };
 });
-</script>
+</script>-->
 </body>
 </html>
 
