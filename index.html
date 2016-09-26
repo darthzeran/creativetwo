@@ -34,16 +34,21 @@ right: 550px;
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
 
 <script>
+var thelist="";
+
 $(document).ready(function() {
 
 $("#thebutton").click(function(e){
   var value = $("#ArtistInput").val();
+  thelist+= value+"<br>";
+ // thelist=front+thelist;
+  $("#list").html(thelist);
   //console.log(value);
   e.preventDefault();
 value=value.replace(/ /g, "+");
 var myurl= "http://api.musicgraph.com/api/v2/artist/suggest?api_key=c8303e90962e3a5ebd5a1f260a69b138&prefix=" + value;
 
- // console.log(myurl);
+  //console.log(myurl);
 
   $.ajax({
     url : myurl,
@@ -52,7 +57,7 @@ var myurl= "http://api.musicgraph.com/api/v2/artist/suggest?api_key=c8303e90962e
 	 var everything="";
 	$.each(parsed_json.data, function(i, value)
 	 {
-	 //console.log(values);
+	 //console.log(value);
 	 var link=value.link;
 	 var title = value.title;
 	 everything += "<a href=\"https://www.youtube.com/channel/"+ value.youtube_id + "\">" + value.name + "</a>" + "<br>" + "Main Genre: " + 
@@ -76,7 +81,7 @@ var myurl= "http://api.musicgraph.com/api/v2/artist/suggest?api_key=c8303e90962e
 <input id="thebutton" type="submit" value="Search Artist">
 </form>
 <br>
-<div>
+<div id="list">
 
 </div>
 
@@ -85,20 +90,10 @@ var myurl= "http://api.musicgraph.com/api/v2/artist/suggest?api_key=c8303e90962e
 </div>
 
 <div id="results">
-<p>Show the results</p>
+
 </div>
 
-<!--
-<script>
-var app = angular.module('myApp', []);
-app.controller('ArtistCtrl', function($scope) {
-    $scope.ArtistList = [];
-    $scope.ArtistAdd = function() {
-    $scope.ArtistList.push({ArtistText:$scope.ArtistInput});
-    $scope.ArtistInput = "";
- };
-});
-</script>-->
+
 </body>
 </html>
 
