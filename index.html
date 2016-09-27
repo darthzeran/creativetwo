@@ -1,99 +1,58 @@
 <!doctype html>
 <html>
-<head>
-<style>
-body{
-        background-image: url(http://www.nateharasim.com/wp-content/uploads/2015/07/itunes-logo-png-transparent.png);
-        width: 100%;
-        background-color:grey;
-       }
-div{
-	background: #ebebe0;
-	width: 30%;
-}
-h1{
-       background-color: white;
-       width: 600px;
-       padding:10px;
-   }
-#content img {
-position: fixed; 
-bottom: 0px; 
-right: 550px;
+    <head>
+        <title>Song Search</title>
+        <link rel="stylesheet" href="main.css">
+        <link rel="icon" href="src/music.png">
+        <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
+        <script   src="http://code.jquery.com/jquery-2.2.4.min.js"></script>
+        <script src="script.js"></script>
+    
+    </head>
+    <body ng-app="myApp" ng-controller="songCtrl">
+        <img id="backimg" src="src/ituneslogo.png" alt="itunes logo" width="500">
 
-}
-#results{
-	position: absolute;
-	background-color: white;
-	top: 50px;
-	right: 50px;
-	
+            <div id="history">
+                <h1>iTunes Song Search</h1>
+                <form ng-submit="songAdd()">
+                    <input type="text" ng-model="songInput" size="50" placeholder="Search New">
+                    <input type="submit" value="Search Song">
+                </form>
+                <h2>Search History</h2>
+                <br>
+                <div class="hp_slide">
+                    <div class="hp_range"></div>
+                </div>
+                <div id="results" ng-repeat="x in songList">
+                    <table>
+                        <tbody>
+                            <tr class="">
+                                <td id="tdplay" style="width: 800px;" ng-bind="x.songText"></td>
+                                <td align="right" class="play" ng-click="toggle($index)"><img src="src/plainicon.com-40678-512px.png"></td>
+                                <td align="right" class="pause" ng-click="toggle($index)"><img src="src/plainicon.com-42677-512px.png"></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
 
-}
-</style>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+        <script>
+            var app = angular.module('myApp', []);
+            app.controller('songCtrl', function($scope) {
+                $scope.songList = [];
+                $scope.songAdd = function() {
+                    $scope.songList.push({songText:$scope.songInput});
+                    $scope.songInput = "";
+                };
+                $scope.toggle = function(index) {
+                    togglePlay($scope.songList[index].songText);
+                }
+            });
+        </script>
+        
+        <audio controls id="aud" style="display:none">
+            <source src="" type="audio/mpeg">
+        </audio>
 
-<script>
-var thelist="";
-
-$(document).ready(function() {
-
-$("#thebutton").click(function(e){
-  var value = $("#ArtistInput").val();
-  thelist+= value+"<br>";
- // thelist=front+thelist;
-  $("#list").html(thelist);
-  //console.log(value);
-  e.preventDefault();
-value=value.replace(/ /g, "+");
-var myurl= "http://api.musicgraph.com/api/v2/artist/suggest?api_key=c8303e90962e3a5ebd5a1f260a69b138&prefix=" + value;
-
-  //console.log(myurl);
-
-  $.ajax({
-    url : myurl,
-    dataType : "json",
-     success : function(parsed_json) {
-	 var everything="";
-	$.each(parsed_json.data, function(i, value)
-	 {
-	 //console.log(value);
-	 var link=value.link;
-	 var title = value.title;
-	 everything += "<a href=\"https://www.youtube.com/channel/"+ value.youtube_id + "\">" + value.name + "</a>" + "<br>" + "Main Genre: " + 
-	 value.main_genre + "<br>" + "Origin Country: " + value.country_of_origin + "<br>" + "Decade: " + value.decade + "<br>"+ "<br>";
-	 });
-	 $("#results").html(everything);
-    }
-  });
-  
-});
-});
-
-</script>
-
-</head>
-<body>
-<title>SongSearch</title>
-<h1><b>Emergency Makeshift iTunes Song Search</b></h1>
-<form>
-<input type="text" id="ArtistInput" size="50" placeholder="Enter Artist">
-<input id="thebutton" type="submit" value="Search Artist">
-</form>
-<br>
-<div id="list">
-
-</div>
-
-<div id="content">
-    <img src="http://vignette3.wikia.nocookie.net/logopedia/images/0/0c/ITunes_11_Logo.png/revision/latest?cb=20121202052931"</>   
-</div>
-
-<div id="results">
-
-</div>
-
-
-</body>
+    </body>
 </html>
-
